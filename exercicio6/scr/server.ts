@@ -1,5 +1,8 @@
+import { promises } from 'dns';
 import express from 'express'
 import validationbr from 'validation-br'
+import cep from 'cep-promise'
+
 
 const app = express();
 const port: number = 3000;
@@ -37,12 +40,44 @@ app.get('/valida-cnh/:cnh', (req, res) => {
     }
 }
 );
-
-app.get('/valida-cep/:cep',  (req, res: ) => {
-    if (validationbr.isCEp(req.params.cep)) {
-        return res.send ('CEP Válido');
-    } else {
-        return res.send ('CEP Inválido');
-    }
+app.get('/valida-cep/:cep', async (req: Request<{ cep: string | number }>, res: Response) => {
+    const dados: any = await cep(req.params.cep)
+                            .then((data) => { return data })
+                            .catch((err) => { return err });
+    return res.json({ dados:  dados })
 });
 
+
+interface ipessoa {
+    cpf: number,
+    nome: string,
+    RG: number
+}
+
+interface iendereco {
+    cep: number,
+    rua: string,
+    bairro: string,
+    cidade: string,
+    estado: string
+
+}
+let clientes: icliente []=[];
+
+interface icliente extends ipessoa, iendereco {
+    email: string
+
+    
+
+}
+let array: icliente []=[
+    {cpf: number, 
+        nome: string, 
+        rg: number,  
+        cep: number, 
+        rua: string,
+        bairro: string,
+        cidade: string,
+        estado: string}
+]
+console.log(clientes)
