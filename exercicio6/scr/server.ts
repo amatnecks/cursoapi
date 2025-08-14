@@ -73,7 +73,7 @@ interface icliente extends ipessoa, iendereco {
 let array: icliente []=[
     {cpf: 12345678900, 
         nome: 'teste', 
-        rg: number,  
+        rg: 7.403.372-9,  
         cep: number, 
         rua: string,
         bairro: string,
